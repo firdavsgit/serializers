@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from person.views import Listsports
+from person.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/Listsports', Listsports.as_view())
+    path('api/v1/Listsports/<int:pk>/', Listsports.as_view()),
 ]
