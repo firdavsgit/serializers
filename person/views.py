@@ -4,6 +4,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from person import serializers
 from person.models import Person
 from person.serializers import Sportserializers
 
@@ -11,9 +12,16 @@ from person.serializers import Sportserializers
 
 
 class Listsports(APIView):
-    def get(self,request):
-        list1 = Person.objects.all().values()
-        return Response({'famous': Sportserializers(list1, many=True).data})
+    def get(self,request, pk):
+        if not pk:
+            return Response({"get": "Method GET not allowed!"})
+
+        try:
+            instanse = Person.objects.get(pk=pk)
+        except:
+            return Response({"famous": "Object not found!!!"})
+        serializers = Sportserializers(instanse)
+        return Response({"get": serializers.data})
 
     def post(self, requests):
         serializers = Sportserializers(data=requests.data)
